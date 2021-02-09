@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">WhatYouKnow</string>
     <string name="app_welcomeName" translatable="false">Кво знаиш</string>
+    <string name="HighestScore">Най висок резултат</string>
+    <string name="currentScore">Текущ резултат</string>
+    <string name="counter_questions">0 от 100</string>
 </resources>
