@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">WhatYouKnow</string>
+    <string name="app_name" translatable="false">WhatYouKnow</string>
+    <string name="app_welcomeName" translatable="false">Кво знаиш</string>
 </resources>
