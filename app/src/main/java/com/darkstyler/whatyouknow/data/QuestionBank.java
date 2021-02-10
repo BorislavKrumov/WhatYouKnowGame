@@ -15,9 +15,9 @@ import java.util.List;
 
 public class QuestionBank {
     ArrayList<Question> questionArrayList = new ArrayList<>();
-    private String url = "To be implemented";
+    private String url = "https://raw.githubusercontent.com/statsing99/JsonDATA/main/data.json";
 
-    public List<Question> getQuestions(final AnswerListAsyncResponse callBack){
+   public List<Question> getQuestions(final AnswerListAsyncResponse callBack){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET, url, (JSONArray) null, (response) ->{
                     for(int i=0; i<response.length(); i++){
@@ -28,6 +28,7 @@ public class QuestionBank {
                             question.setAnswer2(response.getJSONArray(i).getString(2));
                             question.setAnswer3(response.getJSONArray(i).getString(3));
                             question.setAnswer4(response.getJSONArray(i).getString(4));
+                            question.setCorrectAnswer(response.getJSONArray(i).getString(5));
                             questionArrayList.add(question);
                         }
                         catch (JSONException je){
