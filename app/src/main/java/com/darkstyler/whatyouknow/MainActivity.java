@@ -2,7 +2,6 @@ package com.darkstyler.whatyouknow;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Score score;
     private Prefs prefs;
     int highsScore;
+    private int multiplier = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,11 +135,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     private void addPoints(){
-        //TODO Can be add multiplier for streak of correct answers
-
-
-        scoreCounter +=10;
-        score.setScore(scoreCounter);
+        multiplier +=1;
+        scoreCounter +=10 + multiplier *3.76;
+        score.setScore((int) (scoreCounter));
         currentScoreText.setText("Current score:" +score.getScore());
         if(scoreCounter > highsScore){
             highsScore = scoreCounter;
@@ -149,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void decreasePoints(){
-        //TODO if Multiplier is implemented, needs to be reset here ...
+        multiplier=0;
         scoreCounter =-100;
         if(scoreCounter>0){
             score.setScore(scoreCounter);
