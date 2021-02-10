@@ -2,6 +2,7 @@ package com.darkstyler.whatyouknow;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.darkstyler.whatyouknow.util.Prefs;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final String colorCorrectAnswer = "Color.GREEN";
+    public static final String colorWrongAnswer = "Color.RED";
+    private static final String colorDefaultAnswer= "Color.GREEN";
     private TextView questionCounter;
     private TextView questionText;
     private TextView highestPersistScore;
@@ -30,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int scoreCounter =0;
     private Score score;
     private Prefs prefs;
-
+    int highsScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answer4 = findViewById(R.id.button_answer4);
         score = new Score(scoreCounter);
         prefs = new Prefs(this);
+        //Set highScore from previous state
+        highsScore = prefs.getHighestScore();
         questionText = findViewById(R.id.question_textview);
         questionCounter = findViewById(R.id.counter_text);
         currentScoreText = findViewById(R.id.currentScore_text);
@@ -77,20 +83,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             case R.id.button_answer1: {
 
-                if(currentQuestionAnswer.equals(answer1.toString())){
+                if(currentQuestionAnswer.equals(answer1.getText())){
+                    updateQuestion();
+                    addPoints();
+                    break;
+                }
+                else {
 
+                    decreasePoints();
+                    break;
                 }
             }
             case R.id.button_answer2: {
-
+                  if(currentQuestionAnswer.equals(answer2.getText())){
+                      updateQuestion();
+                      addPoints();
+                  }
+                  else{
+                        decreasePoints();
+                        break;
+                  }
             }
             case R.id.button_answer3:{
-
+                if(currentQuestionAnswer.equals(answer3.getText())){
+                    updateQuestion();
+                    addPoints();
+                    break;
+                }
+                else{
+                        decreasePoints();
+                        break;
+                }
             }
             case R.id.button_answer4:{
                 Log.d("TEST","Test is working: " + currentQuestionAnswer + "answer 4 button:" + answer4.getText());
                 if(currentQuestionAnswer.equals(answer4.getText())){
                     Log.d("TAG ANSWER: ", "ANSWER is correct"+ answer4);
+                    updateQuestion();
+                    addPoints();
+                    break;
+                }
+                else {
+                    decreasePoints();
+                    break;
                 }
 
 
@@ -98,5 +133,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
+    }
+    private void addPoints(){
+        //TODO Can be add multiplier for streak of correct answers
+
+
+        scoreCounter +=10;
+        score.setScore(scoreCounter);
+        currentScoreText.setText("Current score:" +score.getScore());
+        if(scoreCounter > highsScore){
+            highsScore = scoreCounter;
+            highestPersistScore.setText("Highest score: " +highsScore);
+            prefs.saveHighestScore(scoreCounter);
+        }
+    }
+
+    private void decreasePoints(){
+        //TODO if Multiplier is implemented, needs to be reset here ...
+        scoreCounter =-100;
+        if(scoreCounter>0){
+            score.setScore(scoreCounter);
+            currentScoreText.setText("Current score:" +score.getScore());
+        }
+        else{
+            scoreCounter = 0;
+            score.setScore(scoreCounter);
+            currentScoreText.setText("Current score:" +score.getScore());
+        }
+    }
+    //Method for updating questions textview and answers buttons
+    private void updateQuestion(){
+        //TODO Needs some optimizations, not crucial for this state
+        currentQuestionCounter = (currentQuestionCounter + 1) %questionsList.size();
+        //Set current Question text
+        questionText.setText(questionsList.get(currentQuestionCounter).getQuestion());
+        //Set current answers
+        answer1.setText(questionsList.get(currentQuestionCounter).getAnswer1());
+        answer2.setText(questionsList.get(currentQuestionCounter).getAnswer2());
+        answer3.setText(questionsList.get(currentQuestionCounter).getAnswer3());
+        answer4.setText(questionsList.get(currentQuestionCounter).getAnswer4());
+        //Set String QuestionAnswer to the right answer
+        currentQuestionAnswer = questionsList.get(currentQuestionCounter).getCorrectAnswer();
+        questionCounter.setText(currentQuestionCounter + " / " + questionsList.size());
+       // prefs.saveHighestScore(scoreCounter);
+        //Needs optimizations
+    }
+
+    @Override
+    protected void onPause() {
+        prefs.saveHighestScore(score.getScore());
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        prefs.saveHighestScore(score.getScore());
+        super.onDestroy();
     }
 }
