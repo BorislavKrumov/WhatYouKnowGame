@@ -4,4 +4,6 @@
     <string name="HighestScore">Най висок резултат</string>
     <string name="currentScore">Текущ резултат</string>
     <string name="counter_questions">0 от 100</string>
+    <string name="string_textViewTest">Something testing here</string>
+    <string name="string_sampleDesignButton">Sample text here</string>
 </resources>

@@ -13,7 +13,10 @@ import com.darkstyler.whatyouknow.model.Question;
 import com.darkstyler.whatyouknow.model.Score;
 import com.darkstyler.whatyouknow.util.Prefs;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String colorCorrectAnswer = "Color.GREEN";
@@ -63,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             questionCounter.setText(currentQuestionCounter + "/" + questionArrayList.size());
 
         });
-
         //Adding small manual test
         Log.d("Main", "OnCreate" + questionsList);
         highestPersistScore.setText("Highest score: " +prefs.getHighestScore());
