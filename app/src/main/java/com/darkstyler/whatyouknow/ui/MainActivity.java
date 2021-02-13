@@ -1,5 +1,6 @@
 package com.darkstyler.whatyouknow.ui;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.darkstyler.whatyouknow.R;
 import com.darkstyler.whatyouknow.data.QuestionBank;
@@ -15,6 +17,7 @@ import com.darkstyler.whatyouknow.model.Question;
 import com.darkstyler.whatyouknow.model.Score;
 import com.darkstyler.whatyouknow.util.Prefs;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answer3.setOnClickListener(this);
         answer4.setOnClickListener(this);
         half.setOnClickListener(this);
+        callFriend.setOnClickListener(this);
     }
 
 
@@ -138,6 +142,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.button_50percent: {
                 fiftyPercent();
+            }
+            case R.id.button_callFriend:{
+                callFriend();
             }
 
         }
@@ -212,6 +219,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answer3.setVisibility(View.VISIBLE);
         answer4.setVisibility(View.VISIBLE);
         half.setVisibility(View.GONE);
+    }
+    public void callFriend(){
+        callFriend.setVisibility(View.GONE);
+        List<String> callFriendListAnswers = new ArrayList<String>();
+        callFriendListAnswers.add("Брат не ме занимавай с глупостите ти");
+        callFriendListAnswers.add("Иван каза че верния отговор е: " + currentQuestionAnswer);
+        callFriendListAnswers.add("Не съм сигурен, спи ми се, май е: "+currentQuestionAnswer);
+        callFriendListAnswers.add("Питай Илиян.");
+        callFriendListAnswers.add("Абе пиши там: " + currentQuestionAnswer + ". Пък квото стане.");
+        callFriendListAnswers.add("Абе ти някаква игра ли играеш. Кви са тия въпроси?");
+        Random random = new Random();
+        int answer = random.nextInt(6);
+        Toast.makeText(this,callFriendListAnswers.get(answer),Toast.LENGTH_LONG).show();
     }
     public void gameOver(){
         Intent intent = new Intent(this, GameOver.class);
