@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button answer2;
     private Button answer3;
     private Button answer4;
+    private Button half;
+    private Button callFriend;
+    private Button askPublic;
     private int currentQuestionCounter = 0;
     private List<Question> questionsList;
     private int scoreCounter =0;
@@ -50,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answer2 = findViewById(R.id.button_answer2);
         answer3 = findViewById(R.id.button_answer3);
         answer4 = findViewById(R.id.button_answer4);
+        half =findViewById(R.id.button_50percent);
+        callFriend = findViewById(R.id.button_callFriend);
+        askPublic = findViewById(R.id.button_askPublic);
         score = new Score(scoreCounter);
         prefs = new Prefs(this);
         //Set highScore from previous state
@@ -76,8 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answer2.setOnClickListener(this);
         answer3.setOnClickListener(this);
         answer4.setOnClickListener(this);
-
-
+        half.setOnClickListener(this);
     }
 
 
@@ -130,8 +135,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     gameOver();
                     break;
                 }
-
-
+            }
+            case R.id.button_50percent: {
+                fiftyPercent();
             }
 
         }
@@ -163,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Set String QuestionAnswer to the right answer
         currentQuestionAnswer = questionsList.get(currentQuestionCounter).getCorrectAnswer();
         questionCounter.setText(currentQuestionCounter + " / " + questionsList.size());
+        buttonVisibilityReset();
        // prefs.saveHighestScore(scoreCounter);
         //Needs optimizations
     }
@@ -176,6 +183,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         prefs.saveHighestScore(score.getScore());
         super.onDestroy();
+    }
+    //Todo improve this method
+    public void fiftyPercent(){
+
+        if(currentQuestionAnswer.equals(answer1.getText())){
+           answer3.setVisibility(View.GONE);
+           answer2.setVisibility(View.GONE);
+        }
+        else if(currentQuestionAnswer.equals(answer2.getText())){
+            answer1.setVisibility(View.GONE);
+            answer3.setVisibility(View.GONE);
+        }
+        else if(currentQuestionAnswer.equals(answer3.getText())){
+             answer4.setVisibility(View.GONE);
+             answer1.setVisibility(View.GONE);
+        }
+        else if(currentQuestionAnswer.equals(answer4.getText()))
+        {
+            answer2.setVisibility(View.GONE);
+            answer3.setVisibility(View.GONE);
+        }
+    }
+    //Todo need another logic
+    public void buttonVisibilityReset(){
+        answer1.setVisibility(View.VISIBLE);
+        answer2.setVisibility(View.VISIBLE);
+        answer3.setVisibility(View.VISIBLE);
+        answer4.setVisibility(View.VISIBLE);
+        half.setVisibility(View.GONE);
     }
     public void gameOver(){
         Intent intent = new Intent(this, GameOver.class);
