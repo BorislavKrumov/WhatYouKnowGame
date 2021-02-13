@@ -142,9 +142,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.button_50percent: {
                 fiftyPercent();
+                break;
             }
             case R.id.button_callFriend:{
                 callFriend();
+                break;
             }
 
         }
@@ -193,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     //Todo improve this method
     public void fiftyPercent(){
-
+        half.setVisibility(View.GONE);
         if(currentQuestionAnswer.equals(answer1.getText())){
            answer3.setVisibility(View.GONE);
            answer2.setVisibility(View.GONE);
@@ -218,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answer2.setVisibility(View.VISIBLE);
         answer3.setVisibility(View.VISIBLE);
         answer4.setVisibility(View.VISIBLE);
-        half.setVisibility(View.GONE);
+
     }
     public void callFriend(){
         callFriend.setVisibility(View.GONE);
