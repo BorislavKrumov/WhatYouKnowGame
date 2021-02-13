@@ -6,4 +6,8 @@
     <string name="counter_questions">0 от 100</string>
     <string name="string_textViewTest">Something testing here</string>
     <string name="string_sampleDesignButton">Sample text here</string>
+    <string name="quit">Изход</string>
+    <string name="play">Нова игра</string>
+    <string name="game_over">Край на играта</string>
+    <string name="home">Начало</string>
 </resources>

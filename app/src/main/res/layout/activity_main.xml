@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_orange_light"
-    tools:context=".MainActivity">
+    android:background="#00bfff"
+    tools:context=".ui.MainActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -39,7 +39,7 @@
             android:gravity="center_vertical"
             android:text="@string/string_textViewTest"
             android:textSize="18sp"
-
+            android:layout_gravity="center"
             />
     </androidx.cardview.widget.CardView>
 
@@ -50,30 +50,31 @@
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/cardView">
+
         <Button
             android:id="@+id/button_answer1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:text="@string/string_sampleDesignButton" />
 
         <Button
             android:id="@+id/button_answer2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:text="@string/string_sampleDesignButton" />
 
         <Button
             android:id="@+id/button_answer3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:text="@string/string_sampleDesignButton" />
 
         <Button
             android:id="@+id/button_answer4"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:text="@string/string_sampleDesignButton" />

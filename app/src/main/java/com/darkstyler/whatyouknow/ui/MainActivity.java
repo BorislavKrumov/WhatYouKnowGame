@@ -1,13 +1,15 @@
-package com.darkstyler.whatyouknow;
+package com.darkstyler.whatyouknow.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.darkstyler.whatyouknow.R;
 import com.darkstyler.whatyouknow.data.QuestionBank;
 import com.darkstyler.whatyouknow.model.Question;
 import com.darkstyler.whatyouknow.model.Score;
@@ -91,8 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 }
                 else {
-
-                    decreasePoints();
+                    gameOver();
                     break;
                 }
             }
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                       addPoints();
                   }
                   else{
-                        decreasePoints();
+                        gameOver();
                         break;
                   }
             }
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 }
                 else{
-                        decreasePoints();
+                        gameOver();
                         break;
                 }
             }
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 }
                 else {
-                    decreasePoints();
+                    gameOver();
                     break;
                 }
 
@@ -148,19 +149,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void decreasePoints(){
-        multiplier=0;
-        scoreCounter =-100;
-        if(scoreCounter>0){
-            score.setScore(scoreCounter);
-            currentScoreText.setText("Current score:" +score.getScore());
-        }
-        else{
-            scoreCounter = 0;
-            score.setScore(scoreCounter);
-            currentScoreText.setText("Current score:" +score.getScore());
-        }
-    }
     //Method for updating questions textview and answers buttons
     private void updateQuestion(){
         //TODO Needs some optimizations, not crucial for this state
@@ -184,10 +172,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefs.saveHighestScore(score.getScore());
         super.onPause();
     }
-
     @Override
     protected void onDestroy() {
         prefs.saveHighestScore(score.getScore());
         super.onDestroy();
+    }
+    public void gameOver(){
+        Intent intent = new Intent(this, GameOver.class);
+        startActivity(intent);
+        finish();
     }
 }
