@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                   if(currentQuestionAnswer.equals(answer2.getText())){
                       updateQuestion();
                       addPoints();
+                      break;
                   }
                   else{
                         gameOver();
