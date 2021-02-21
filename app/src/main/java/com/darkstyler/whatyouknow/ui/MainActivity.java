@@ -3,9 +3,11 @@ package com.darkstyler.whatyouknow.ui;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import com.darkstyler.whatyouknow.model.Question;
 import com.darkstyler.whatyouknow.model.Score;
 import com.darkstyler.whatyouknow.util.Prefs;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -77,16 +80,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             questionCounter.setText(currentQuestionCounter + "/" + questionArrayList.size());
 
         });
-        //Adding small manual test
-        Log.d("Main", "OnCreate" + questionsList);
         highestPersistScore.setText("Highest score: " +prefs.getHighestScore());
-
         answer1.setOnClickListener(this);
         answer2.setOnClickListener(this);
         answer3.setOnClickListener(this);
         answer4.setOnClickListener(this);
         half.setOnClickListener(this);
         callFriend.setOnClickListener(this);
+        askPublic.setOnClickListener(this);
     }
 
 
@@ -129,9 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
             case R.id.button_answer4:{
-                Log.d("TEST","Test is working: " + currentQuestionAnswer + "answer 4 button:" + answer4.getText());
                 if(currentQuestionAnswer.equals(answer4.getText())){
-                    Log.d("TAG ANSWER: ", "ANSWER is correct"+ answer4);
                     updateQuestion();
                     addPoints();
                     break;
@@ -149,7 +148,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 callFriend();
                 break;
             }
-
+            case R.id.button_askPublic:{
+                askPublic();
+                break;
+            }
         }
 
     }
@@ -197,19 +199,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Todo improve this method
     public void fiftyPercent(){
         half.setVisibility(View.GONE);
-        if(currentQuestionAnswer.equals(answer1.getText())){
+        if(currentQuestionAnswer.contentEquals(answer1.getText())){
            answer3.setVisibility(View.GONE);
            answer2.setVisibility(View.GONE);
         }
-        else if(currentQuestionAnswer.equals(answer2.getText())){
+        else if(currentQuestionAnswer.contentEquals(answer2.getText())){
             answer1.setVisibility(View.GONE);
             answer3.setVisibility(View.GONE);
         }
-        else if(currentQuestionAnswer.equals(answer3.getText())){
+        else if(currentQuestionAnswer.contentEquals(answer3.getText())){
              answer4.setVisibility(View.GONE);
              answer1.setVisibility(View.GONE);
         }
-        else if(currentQuestionAnswer.equals(answer4.getText()))
+        else if(currentQuestionAnswer.contentEquals(answer4.getText()))
         {
             answer2.setVisibility(View.GONE);
             answer3.setVisibility(View.GONE);
@@ -235,6 +237,70 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Random random = new Random();
         int answer = random.nextInt(6);
         Toast.makeText(this,callFriendListAnswers.get(answer),Toast.LENGTH_LONG).show();
+    }
+    public void askPublic() {
+        askPublic.setVisibility(View.GONE);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.activity_help_from_public, findViewById(R.id.ask_public));
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).setView(layout).create();
+        Button close = (Button) layout.findViewById(R.id.close);
+        TextView answer1Percentage = (TextView) layout.findViewById(R.id.answer1);
+        TextView answer2Percentage = (TextView) layout.findViewById(R.id.answer2);
+        TextView answer3Percentage = (TextView) layout.findViewById(R.id.answer3);
+        TextView answer4Percentage = (TextView) layout.findViewById(R.id.answer4);
+        int percentage = 100;
+        int currentPercentage;
+        Random random = new Random();
+        if(currentQuestionAnswer.contentEquals(answer1.getText())){
+            currentPercentage = random.nextInt(35) + 35;
+            percentage = percentage - currentPercentage;
+            answer1Percentage.setText(MessageFormat.format("{0}:{1}%", answer1.getText(), currentPercentage));
+            currentPercentage = random.nextInt(35);
+            percentage = percentage - currentPercentage;
+            answer2Percentage.setText(MessageFormat.format("{0}:{1}%", answer2.getText(), currentPercentage));
+            currentPercentage = random.nextInt(percentage);
+            percentage = percentage - currentPercentage;
+            answer3Percentage.setText(MessageFormat.format("{0}:{1}%",answer3.getText(),currentPercentage));
+            answer4Percentage.setText(MessageFormat.format("{0}:{1}%",answer4.getText(),percentage));
+        }
+        else if(currentQuestionAnswer.contentEquals(answer2.getText())){
+            currentPercentage = random.nextInt(35) + 35;
+            percentage = percentage - currentPercentage;
+            answer2Percentage.setText(MessageFormat.format("{0}:{1}%", answer2.getText(), currentPercentage));
+            currentPercentage = random.nextInt(35);
+            percentage = percentage - currentPercentage;
+            answer1Percentage.setText(MessageFormat.format("{0}:{1}%", answer1.getText(), currentPercentage));
+            currentPercentage = random.nextInt(percentage);
+            percentage = percentage - currentPercentage;
+            answer3Percentage.setText(MessageFormat.format("{0}:{1}%",answer3.getText(),currentPercentage));
+            answer4Percentage.setText(MessageFormat.format("{0}:{1}%",answer4.getText(),percentage));
+        }
+        else {
+            currentPercentage = random.nextInt(35) + 35;
+            percentage = percentage - currentPercentage;
+            if(currentQuestionAnswer.contentEquals(answer3.getText())) {
+                answer3Percentage.setText(MessageFormat.format("{0}:{1}%", answer3.getText(), currentPercentage));
+                currentPercentage = random.nextInt(35);
+                percentage = percentage - currentPercentage;
+                answer2Percentage.setText(MessageFormat.format("{0}:{1}%", answer2.getText(), currentPercentage));
+                currentPercentage = random.nextInt(percentage);
+                percentage = percentage - currentPercentage;
+                answer1Percentage.setText(MessageFormat.format("{0}:{1}%", answer1.getText(), currentPercentage));
+                answer4Percentage.setText(MessageFormat.format("{0}:{1}%", answer4.getText(), percentage));
+            }
+            else {
+                answer4Percentage.setText(MessageFormat.format("{0}:{1}%", answer4.getText(), currentPercentage));
+                currentPercentage = random.nextInt(35);
+                percentage = percentage - currentPercentage;
+                answer2Percentage.setText(MessageFormat.format("{0}:{1}%", answer2.getText(), currentPercentage));
+                currentPercentage = random.nextInt(percentage);
+                percentage = percentage - currentPercentage;
+                answer3Percentage.setText(MessageFormat.format("{0}:{1}%", answer3.getText(), currentPercentage));
+                answer1Percentage.setText(MessageFormat.format("{0}:{1}%", answer1.getText(), percentage));
+            }
+        }
+        close.setOnClickListener(view -> alertDialog.dismiss());
+        alertDialog.show();
     }
     public void gameOver(){
         Intent intent = new Intent(this, GameOver.class);
