@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button callFriend;
     private Button askPublic;
     private int currentQuestionCounter = 0;
+    private int questionAnsweredCounter = 0;
     private List<Question> questionsList;
-    private int scoreCounter =0;
+    private int scoreCounter = 0;
     private Score score;
     private Prefs prefs;
     int highsScore;
@@ -71,13 +72,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         currentScoreText = findViewById(R.id.currentScore_text);
         highestPersistScore = findViewById(R.id.highestScore_text);
         questionsList = new QuestionBank().getQuestions(questionArrayList -> {
+            Random random = new Random();
+            currentQuestionCounter= random.nextInt(questionArrayList.size());
             questionText.setText(questionArrayList.get(currentQuestionCounter).getQuestion());
             answer1.setText(questionArrayList.get(currentQuestionCounter).getAnswer1());
             answer2.setText(questionArrayList.get(currentQuestionCounter).getAnswer2());
             answer3.setText(questionArrayList.get(currentQuestionCounter).getAnswer3());
             answer4.setText(questionArrayList.get(currentQuestionCounter).getAnswer4());
             currentQuestionAnswer = questionArrayList.get(currentQuestionCounter).getCorrectAnswer();
-            questionCounter.setText(currentQuestionCounter + "/" + questionArrayList.size());
+            questionCounter.setText(questionAnsweredCounter + "/" + questionArrayList.size());
 
         });
         highestPersistScore.setText("Highest score: " +prefs.getHighestScore());
@@ -169,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Method for updating questions textview and answers buttons
     private void updateQuestion(){
+        questionAnsweredCounter++;
         //TODO Needs some optimizations, not crucial for this state
         currentQuestionCounter = (currentQuestionCounter + 1) %questionsList.size();
         //Set current Question text
@@ -180,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answer4.setText(questionsList.get(currentQuestionCounter).getAnswer4());
         //Set String QuestionAnswer to the right answer
         currentQuestionAnswer = questionsList.get(currentQuestionCounter).getCorrectAnswer();
-        questionCounter.setText(currentQuestionCounter + " / " + questionsList.size());
+        questionCounter.setText(questionAnsweredCounter + " / " + questionsList.size());
         buttonVisibilityReset();
        // prefs.saveHighestScore(scoreCounter);
         //Needs optimizations
