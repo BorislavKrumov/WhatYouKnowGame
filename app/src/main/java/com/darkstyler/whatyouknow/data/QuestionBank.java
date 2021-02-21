@@ -15,9 +15,9 @@ import java.util.List;
 
 public class QuestionBank {
     ArrayList<Question> questionArrayList = new ArrayList<>();
-    private String url = "https://raw.githubusercontent.com/statsing99/JsonDATA/main/data.json";
 
-   public List<Question> getQuestions(final AnswerListAsyncResponse callBack){
+    public List<Question> getQuestions(final AnswerListAsyncResponse callBack){
+        String url = "https://raw.githubusercontent.com/statsing99/JsonDATA/main/data.json";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET, url, (JSONArray) null, (response) ->{
                     for(int i=0; i<response.length(); i++){
@@ -37,8 +37,7 @@ public class QuestionBank {
                     }
                     if(null != callBack)
                         callBack.processFinished(questionArrayList);
-        },(error) ->{
-            Log.d("JSON ERROR", "JSON ERROR MESSAGE AT:" +error);}
+        },(error) -> Log.d("JSON ERROR", "JSON ERROR MESSAGE AT:" +error)
         );
         AppController.getInstance().addToRequestQueue(jsonArrayRequest);
         return questionArrayList;

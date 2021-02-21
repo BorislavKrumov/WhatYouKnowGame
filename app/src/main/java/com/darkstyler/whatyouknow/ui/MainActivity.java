@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -21,8 +20,6 @@ import com.darkstyler.whatyouknow.util.Prefs;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -80,10 +77,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             answer3.setText(questionArrayList.get(currentQuestionCounter).getAnswer3());
             answer4.setText(questionArrayList.get(currentQuestionCounter).getAnswer4());
             currentQuestionAnswer = questionArrayList.get(currentQuestionCounter).getCorrectAnswer();
-            questionCounter.setText(questionAnsweredCounter + "/" + questionArrayList.size());
+            questionCounter.setText(MessageFormat.format("{0}/{1}", questionAnsweredCounter, questionArrayList.size()));
 
         });
-        highestPersistScore.setText("Highest score: " +prefs.getHighestScore());
+        highestPersistScore.setText(MessageFormat.format("Highest score: {0}", prefs.getHighestScore()));
         answer1.setOnClickListener(this);
         answer2.setOnClickListener(this);
         answer3.setOnClickListener(this);
@@ -100,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             case R.id.button_answer1: {
 
-                if(currentQuestionAnswer.equals(answer1.getText())){
+                if(currentQuestionAnswer.contentEquals(answer1.getText())){
                     updateQuestion();
                     addPoints();
                     break;
@@ -111,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
             case R.id.button_answer2: {
-                  if(currentQuestionAnswer.equals(answer2.getText())){
+                  if(currentQuestionAnswer.contentEquals(answer2.getText())){
                       updateQuestion();
                       addPoints();
                       break;
@@ -122,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                   }
             }
             case R.id.button_answer3:{
-                if(currentQuestionAnswer.equals(answer3.getText())){
+                if(currentQuestionAnswer.contentEquals(answer3.getText())){
                     updateQuestion();
                     addPoints();
                     break;
@@ -133,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
             case R.id.button_answer4:{
-                if(currentQuestionAnswer.equals(answer4.getText())){
+                if(currentQuestionAnswer.contentEquals(answer4.getText())){
                     updateQuestion();
                     addPoints();
                     break;
@@ -162,10 +159,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         multiplier +=1;
         scoreCounter +=10 + multiplier *3.76;
         score.setScore((int) (scoreCounter));
-        currentScoreText.setText("Current score:" +score.getScore());
+        currentScoreText.setText(MessageFormat.format("Current score:{0}", score.getScore()));
         if(scoreCounter > highsScore){
             highsScore = scoreCounter;
-            highestPersistScore.setText("Highest score: " +highsScore);
+            highestPersistScore.setText(MessageFormat.format("Highest score: {0}", highsScore));
             prefs.saveHighestScore(scoreCounter);
         }
     }
@@ -184,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         answer4.setText(questionsList.get(currentQuestionCounter).getAnswer4());
         //Set String QuestionAnswer to the right answer
         currentQuestionAnswer = questionsList.get(currentQuestionCounter).getCorrectAnswer();
-        questionCounter.setText(questionAnsweredCounter + " / " + questionsList.size());
+        questionCounter.setText(MessageFormat.format("{0} / {1}", questionAnsweredCounter, questionsList.size()));
         buttonVisibilityReset();
        // prefs.saveHighestScore(scoreCounter);
         //Needs optimizations
@@ -231,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void callFriend(){
         callFriend.setVisibility(View.GONE);
-        List<String> callFriendListAnswers = new ArrayList<String>();
+        List<String> callFriendListAnswers = new ArrayList<>();
         callFriendListAnswers.add("Брат не ме занимавай с глупостите ти");
         callFriendListAnswers.add("Иван каза че верния отговор е: " + currentQuestionAnswer);
         callFriendListAnswers.add("Не съм сигурен, спи ми се, май е: "+currentQuestionAnswer);

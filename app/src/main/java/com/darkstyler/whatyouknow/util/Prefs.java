@@ -10,10 +10,9 @@ public class Prefs {
         this.preferences = activity.getPreferences(Context.MODE_PRIVATE);
     }
     public void saveHighestScore(int score){
-        int currentScore = score;
         int lastScore = preferences.getInt("high_score",0);
-        if(currentScore> lastScore){
-            preferences.edit().putInt("high_score",currentScore).apply();
+        if(score > lastScore){
+            preferences.edit().putInt("high_score", score).apply();
         }
     }
     public int getHighestScore(){
